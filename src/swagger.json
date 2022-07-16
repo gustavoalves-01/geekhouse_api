@@ -1,0 +1,13 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "GeekHouse API",
+    "description": "API to manage a store of entertainment items, which handle with products registration, updtate, deletion, listing and filtering. It also provide the functionality to create orders for products rent and sale.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Gustavo Alves",
+      "url": "https://github.com/gustavoalves-01",
+      "email": "gustavo_s.alves@icloud.com"
+    }
+  }
+}

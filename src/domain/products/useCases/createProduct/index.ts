@@ -4,18 +4,20 @@ import { TypesRepository } from "../../repositories/implementations/TypesReposit
 import { CreateProductController } from "./createProductController";
 import { CreateProductUseCase } from "./createProductUseCase";
 
-const productsRepository = ProductsRepository.getInstance();
-const typesRepository = TypesRepository.getInstance();
-const categoriesRepository = CategoriesRepository.getInstance();
+export default (): CreateProductController => {
+  const productsRepository = new ProductsRepository();
+  const typesRepository = TypesRepository.getInstance();
+  const categoriesRepository = CategoriesRepository.getInstance();
 
-const createProductUseCase = new CreateProductUseCase(
-  productsRepository,
-  typesRepository,
-  categoriesRepository
-);
+  const createProductUseCase = new CreateProductUseCase(
+    productsRepository,
+    typesRepository,
+    categoriesRepository
+  );
 
-const createProductController = new CreateProductController(
-  createProductUseCase
-);
+  const createProductController = new CreateProductController(
+    createProductUseCase
+  );
 
-export { createProductController };
+  return createProductController;
+};

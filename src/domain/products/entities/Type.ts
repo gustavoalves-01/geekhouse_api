@@ -1,15 +1,7 @@
-import crypto from "crypto";
-
 class Type {
-  id?: string;
+  id: string;
   name: string;
-  description: string;
-
-  constructor() {
-    if (!this.id) {
-      this.id = crypto.randomUUID();
-    }
-  }
+  description: string | null;
 }
 
 export { Type };

@@ -2,12 +2,13 @@ import { ProductsRepository } from "../../repositories/implementations/ProductsR
 import { FilterProductsController } from "./filterProductsController";
 import { FilterProductsUseCase } from "./filterProductsUseCase";
 
-const productsRepository = ProductsRepository.getInstance();
+export default (): FilterProductsController => {
+  const productsRepository = new ProductsRepository();
 
-const filterProductsUseCase = new FilterProductsUseCase(productsRepository);
+  const filterProductsUseCase = new FilterProductsUseCase(productsRepository);
 
-const filterProductsController = new FilterProductsController(
-  filterProductsUseCase
-);
-
-export { filterProductsController };
+  const filterProductsController = new FilterProductsController(
+    filterProductsUseCase
+  );
+  return filterProductsController;
+};

@@ -10,8 +10,9 @@ interface IRequest {
   category_name: string;
   price: number;
   discount?: number;
-  rentStockAvailbility: number;
-  saleStockAvailbility: number;
+  onlyRentStock: number;
+  onlySaleStock: number;
+  rentAndSaleStock: number;
 }
 
 class CreateProductUseCase {
@@ -21,8 +22,8 @@ class CreateProductUseCase {
     private categoriesRepository: ICategoriesRepository
   ) {}
 
-  execute(product: IRequest): void {
-    const productAlreadyExists = this.productsRepository.findByName(
+  async execute(product: IRequest): Promise<void> {
+    const productAlreadyExists = await this.productsRepository.findByName(
       product.name
     );
 
@@ -54,8 +55,9 @@ class CreateProductUseCase {
       category: productCategory,
       price: product.price,
       discount: product.discount || 0,
-      rentStockAvailbility: product.rentStockAvailbility,
-      saleStockAvailbility: product.saleStockAvailbility,
+      onlyRentStock: product.onlyRentStock,
+      onlySaleStock: product.onlySaleStock,
+      rentAndSaleStock: product.rentAndSaleStock,
     };
 
     this.productsRepository.create(newProduct);

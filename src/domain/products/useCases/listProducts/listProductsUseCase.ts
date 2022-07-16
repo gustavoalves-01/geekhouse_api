@@ -4,8 +4,8 @@ import { IProductsRepository } from "../../repositories/interfaces/IProductsRepo
 class ListProductsUseCase {
   constructor(private productsRepository: IProductsRepository) {}
 
-  execute(): Product[] {
-    const products = this.productsRepository.list();
+  async execute(): Promise<Product[]> {
+    const products = await this.productsRepository.list();
 
     return products;
   }

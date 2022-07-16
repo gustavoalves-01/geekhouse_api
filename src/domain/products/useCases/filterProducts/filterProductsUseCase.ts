@@ -9,8 +9,8 @@ interface IRequest {
 class FilterProductsUseCase {
   constructor(private productsRepository: IProductsRepository) {}
 
-  execute({ type, category }: IRequest): Product[] {
-    let products = this.productsRepository.list();
+  async execute({ type, category }: IRequest): Promise<Product[]> {
+    let products = await this.productsRepository.list();
 
     if (type) {
       products = products.filter((product) => product.type.name === type);

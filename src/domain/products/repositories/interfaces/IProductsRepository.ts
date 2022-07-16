@@ -8,14 +8,15 @@ interface ICreateProductDTO {
   type: Type;
   category: Category;
   price: number;
-  discount?: number;
-  rentStockAvailbility: number;
-  saleStockAvailbility: number;
+  discount: number;
+  onlyRentStock: number;
+  onlySaleStock: number;
+  rentAndSaleStock: number;
 }
 
 interface IProductsRepository {
-  findByName(name: string): Product | undefined;
-  list(): Product[];
+  findByName(name: string): Promise<Product | undefined> | Product | undefined;
+  list(): Product[] | Promise<Product[]>;
   create(product: ICreateProductDTO): void;
 }
 

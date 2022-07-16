@@ -7,8 +7,8 @@ interface IRequest {
 class FindProductUseCase {
   constructor(private productsRepository: IProductsRepository) {}
 
-  execute({ name }: IRequest): Product {
-    const product = this.productsRepository.findByName(name);
+  async execute({ name }: IRequest): Promise<Product> {
+    const product = await this.productsRepository.findByName(name);
 
     if (!product) {
       throw new Error("Product not found.");

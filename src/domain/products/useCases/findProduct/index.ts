@@ -2,10 +2,12 @@ import { ProductsRepository } from "../../repositories/implementations/ProductsR
 import { FindProductController } from "./findProductController";
 import { FindProductUseCase } from "./findProductUseCase";
 
-const productsRepository = ProductsRepository.getInstance();
+export default (): FindProductController => {
+  const productsRepository = new ProductsRepository();
 
-const findProductUseCase = new FindProductUseCase(productsRepository);
+  const findProductUseCase = new FindProductUseCase(productsRepository);
 
-const findProductController = new FindProductController(findProductUseCase);
+  const findProductController = new FindProductController(findProductUseCase);
 
-export { findProductController };
+  return findProductController;
+};

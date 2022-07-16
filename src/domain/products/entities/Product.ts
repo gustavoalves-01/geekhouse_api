@@ -11,8 +11,9 @@ class Product {
   category: Category;
   price: number;
   discount: number;
-  rentStockAvailbility: number;
-  saleStockAvailbility: number;
+  onlyRentStock: number;
+  onlySaleStock: number;
+  rentAndSaleStock: number;
 
   constructor() {
     if (!this.id) {

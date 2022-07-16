@@ -5,7 +5,7 @@ import { CreateProductUseCase } from "./createProductUseCase";
 class CreateProductController {
   constructor(private createProductUseCase: CreateProductUseCase) {}
 
-  handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response): Promise<Response> {
     const {
       name,
       description,
@@ -13,22 +13,27 @@ class CreateProductController {
       category_name,
       price,
       discount,
-      rentStockAvailbility,
-      saleStockAvailbility,
+      onlyRentStock,
+      onlySaleStock,
+      rentAndSaleStock,
     } = request.body;
 
-    this.createProductUseCase.execute({
-      name,
-      description,
-      type_name,
-      category_name,
-      price,
-      discount,
-      rentStockAvailbility,
-      saleStockAvailbility,
-    });
-
-    return response.status(201).send();
+    try {
+      this.createProductUseCase.execute({
+        name,
+        description,
+        type_name,
+        category_name,
+        price,
+        discount,
+        onlyRentStock,
+        onlySaleStock,
+        rentAndSaleStock,
+      });
+      return response.status(201).send();
+    } catch (err) {
+      return response.status(400).send("Failed to create new product");
+    }
   }
 }
 

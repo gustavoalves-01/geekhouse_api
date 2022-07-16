@@ -2,10 +2,14 @@ import { ProductsRepository } from "../../repositories/implementations/ProductsR
 import { ListProductsController } from "./listProductsController";
 import { ListProductsUseCase } from "./listProductsUseCase";
 
-const productsRepository = ProductsRepository.getInstance();
+export default (): ListProductsController => {
+  const productsRepository = new ProductsRepository();
 
-const listProductsUseCase = new ListProductsUseCase(productsRepository);
+  const listProductsUseCase = new ListProductsUseCase(productsRepository);
 
-const listProductsController = new ListProductsController(listProductsUseCase);
+  const listProductsController = new ListProductsController(
+    listProductsUseCase
+  );
 
-export { listProductsController };
+  return listProductsController;
+};
