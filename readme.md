@@ -33,49 +33,70 @@ The sales are a type of purchase that the custumer doesn't need to return de pro
 The order are registrations of some purchase.
 
 ## Routes
+### Types
+
 - Create Type -> [POST] /types
-&nbsp;- name: string (required)
-&nbsp;- description: string (optional)
+
+| name        	| string 	| required 	|
+|-------------	|--------	|----------	|
+| description 	| string 	| optional 	|
 
 - List Types -> [GET] /types
 
+<br/>
+
+### Categories
 
 - Create Category -> [POST] /categories
-&nbsp;- name: string (required)
-&nbsp;- description: string (optional)
+
+| name        	| string 	| required 	|
+|-------------	|--------	|----------	|
+| description 	| string 	| optional 	|
 
 - List Categories -> [GET] /categories
 
+<br/>
+
+### Products
 
 - Create Product -> [POST] /products
-&nbsp;- name: string (required)
-&nbsp;- description: string (required)
-&nbsp;- type_name: string (required)
-&nbsp;- category_name: string (required)
-&nbsp;- price: number (required)
-&nbsp;- discount: number (required)
-&nbsp;- onlyRentStock: number (required) 
-&nbsp;- onlySaleStock: number (required)
-&nbsp;- rentAndSaleStock: number (required)
+
+| name             | string | required |
+|------------------|--------|----------|
+| description      | string | required |
+| type_name        | string | required |
+| category_name    | string | required |
+| price            | number | required |
+| onlyRentStock    | number | required |
+| onlySaleStock    | number | required |
+| rentAndSaleStock | number | required |
 
 - List Products -> [GET] /products
 
-- FIlter Products -> [GET] /produts?type={type_name}&category={category_name}
+- Filter Products -> [GET] /produts?type={type_name}&category={category_name}
 
+<br/>
+
+### Orders
 
 - Create Order -> [POST] /orders
-&nbsp;- rents: Array
-&nbsp;&nbsp;- productId: string (required)
-&nbsp;&nbsp;- customer: string (required)
-&nbsp;&nbsp;- days: number (required)
-&nbsp;- sales: Array
-&nbsp;&nbsp;- productId: string (required)
-&nbsp;&nbsp;- customer: string (required)
+
+| rents 	|           	|        	|          	|
+|-------	|-----------	|--------	|----------	|
+|       	| productId 	| string 	| required 	|
+|       	| customer  	| string 	| required 	|
+|       	| days      	| number 	| required 	|
+| sales 	|           	|        	|          	|
+|       	| productId 	| string 	| required 	|
+|       	| customer  	| string 	| required 	|
 
 - List Orders -> [GET] /orders
-
+<br/>
 
 - Receive Product -> [POST] /orders/receive
-&nbsp;- rentId: string (required)
-&nbsp;- onlyRent: boolean (required)*
+
+| rentId    | string  | required |
+|-----------|---------|----------|
+| onlyRent* | boolean | required |
+
 *It defines if the returned product will be placed to the general stock or only rent stock.
