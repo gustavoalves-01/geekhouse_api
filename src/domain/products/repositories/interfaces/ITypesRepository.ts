@@ -6,9 +6,9 @@ interface ICreateTypeDTO {
 }
 
 interface ITypesRepository {
-  findByName(name: string): Type | undefined;
-  list(): Type[];
-  create({ name, description }: ICreateTypeDTO): void;
+  findByName(name: string): Promise<Type | undefined>;
+  list(): Promise<Type[]>;
+  create({ name, description }: ICreateTypeDTO): Promise<void>;
 }
 
 export { ITypesRepository, ICreateTypeDTO };

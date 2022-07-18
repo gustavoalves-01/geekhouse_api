@@ -33,8 +33,11 @@ class CreateProductUseCase {
       );
     }
 
-    const productType = this.typesRepository.findByName(product.type_name);
-    const productCategory = this.categoriesRepository.findByName(
+    const productType = await this.typesRepository.findByName(
+      product.type_name
+    );
+
+    const productCategory = await this.categoriesRepository.findByName(
       product.category_name
     );
 

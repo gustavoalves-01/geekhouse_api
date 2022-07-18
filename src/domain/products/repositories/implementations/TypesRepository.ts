@@ -1,44 +1,52 @@
+import { PrismaClient } from "@prisma/client";
+
 import { Type } from "../../entities/Type";
 import {
   ICreateTypeDTO,
   ITypesRepository,
 } from "../interfaces/ITypesRepository";
 
+const prisma = new PrismaClient();
+
 class TypesRepository implements ITypesRepository {
-  private types: Type[];
-
-  private static INSTANCE: TypesRepository;
-
-  private constructor() {
-    this.types = [];
-  }
-
-  public static getInstance(): TypesRepository {
-    if (!TypesRepository.INSTANCE) {
-      TypesRepository.INSTANCE = new TypesRepository();
-    }
-
-    return TypesRepository.INSTANCE;
-  }
-
-  findByName(name: string) {
-    const type = this.types.find((type) => type.name === name);
-    return type;
-  }
-
-  list(): Type[] {
-    return this.types;
-  }
-
-  create({ name, description }: ICreateTypeDTO): void {
-    const type = new Type();
-
-    Object.assign(type, {
-      name,
-      description,
+  async findByName(name: string): Promise<Type | undefined> {
+    const typeData = await prisma.types.findFirst({
+      where: { name: { equals: name } },
     });
 
-    this.types.push(type);
+    if (typeData) {
+      const type: Type = {
+        id: typeData.id,
+        name: typeData.name,
+        description: typeData.description,
+      };
+
+      return type;
+    }
+    return undefined;
+  }
+
+  async list(): Promise<Type[]> {
+    const data = await prisma.types.findMany({});
+
+    const types: Type[] = data.map((type) => {
+      return {
+        id: type.id,
+        name: type.name,
+        description: type.description,
+      };
+    });
+
+    return types;
+  }
+
+  async create({ name, description }: ICreateTypeDTO): Promise<void> {
+    await prisma.types.create({
+      data: {
+        name,
+        description,
+      },
+    });
   }
 }
 

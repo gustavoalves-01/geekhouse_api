@@ -19,7 +19,7 @@ class CreateProductController {
     } = request.body;
 
     try {
-      this.createProductUseCase.execute({
+      await this.createProductUseCase.execute({
         name,
         description,
         type_name,
@@ -32,7 +32,9 @@ class CreateProductController {
       });
       return response.status(201).send();
     } catch (err) {
-      return response.status(400).send("Failed to create new product");
+      return response
+        .status(400)
+        .json({ error: "Error to register product. Please check the fields." });
     }
   }
 }

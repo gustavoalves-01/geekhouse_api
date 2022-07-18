@@ -6,8 +6,8 @@ import { CreateProductUseCase } from "./createProductUseCase";
 
 export default (): CreateProductController => {
   const productsRepository = new ProductsRepository();
-  const typesRepository = TypesRepository.getInstance();
-  const categoriesRepository = CategoriesRepository.getInstance();
+  const typesRepository = new TypesRepository();
+  const categoriesRepository = new CategoriesRepository();
 
   const createProductUseCase = new CreateProductUseCase(
     productsRepository,

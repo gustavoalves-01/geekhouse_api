@@ -11,8 +11,8 @@ datasource db {
 }
 
 model Types {
-  id          String  @id @default(uuid())
-  name        String  @unique
+  id          String     @id @default(uuid())
+  name        String     @unique
   description String?
   products    Products[]
 
@@ -20,8 +20,8 @@ model Types {
 }
 
 model Categories {
-  id          String  @id @default(uuid())
-  name        String  @unique
+  id          String     @id @default(uuid())
+  name        String     @unique
   description String?
   products    Products[]
 
@@ -42,5 +42,44 @@ model Products {
   only_sale_stock     Int
   rent_and_sale_stock Int
 
+  rents Rents[]
+  sales Sales[]
+
   @@map("products")
+}
+
+model Rents {
+  id         String   @id @default(uuid())
+  product    Products @relation(fields: [productId], references: [id])
+  productId  String
+  customer   String
+  start_date DateTime
+  end_date   DateTime
+  status     String
+  order      Orders?  @relation(fields: [orderId], references: [id])
+  orderId    String?
+
+  @@map("rents")
+}
+
+model Sales {
+  id        String   @id @default(uuid())
+  product   Products @relation(fields: [productId], references: [id])
+  productId String
+  customer  String
+  sale_date DateTime
+  order     Orders?  @relation(fields: [orderId], references: [id])
+  orderId   String?
+
+  @@map("sales")
+}
+
+model Orders {
+  id         String   @id @default(uuid())
+  rents      Rents[]
+  sales      Sales[]
+  created_at DateTime
+  status     String
+
+  @@map("orders")
 }

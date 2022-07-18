@@ -8,8 +8,8 @@ interface IRequest {
 class CreateTypeUseCase {
   constructor(private typesRepository: ITypesRepository) {}
 
-  execute({ name, description }: IRequest): void {
-    const typeAlreadyExists = this.typesRepository.findByName(name);
+  async execute({ name, description }: IRequest): Promise<void> {
+    const typeAlreadyExists = await this.typesRepository.findByName(name);
 
     if (typeAlreadyExists) {
       throw new Error("A type with the provided name already exists.");

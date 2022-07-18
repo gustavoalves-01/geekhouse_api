@@ -5,10 +5,10 @@ import { CreateTypeUseCase } from "./createTypeUseCase";
 class CreateTypeController {
   constructor(private createTypeUseCase: CreateTypeUseCase) {}
 
-  handle(request: Request, response: Response) {
+  async handle(request: Request, response: Response) {
     const { name, description } = request.body;
 
-    this.createTypeUseCase.execute({ name, description });
+    await this.createTypeUseCase.execute({ name, description });
 
     return response.status(201).send();
   }

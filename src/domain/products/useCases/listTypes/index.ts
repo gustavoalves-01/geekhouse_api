@@ -2,10 +2,12 @@ import { TypesRepository } from "../../repositories/implementations/TypesReposit
 import { ListTypesController } from "./listTypesController";
 import { ListTypesUseCase } from "./listTypesUseCase";
 
-const typesRepository = TypesRepository.getInstance();
+export default (): ListTypesController => {
+  const typesRepository = new TypesRepository();
 
-const listTypesUseCase = new ListTypesUseCase(typesRepository);
+  const listTypesUseCase = new ListTypesUseCase(typesRepository);
 
-const listTypesController = new ListTypesController(listTypesUseCase);
+  const listTypesController = new ListTypesController(listTypesUseCase);
 
-export { listTypesController };
+  return listTypesController;
+};

@@ -10,17 +10,7 @@ class FilterProductsUseCase {
   constructor(private productsRepository: IProductsRepository) {}
 
   async execute({ type, category }: IRequest): Promise<Product[]> {
-    let products = await this.productsRepository.list();
-
-    if (type) {
-      products = products.filter((product) => product.type.name === type);
-    }
-
-    if (category) {
-      products = products.filter(
-        (product) => product.category.name === category
-      );
-    }
+    const products = await this.productsRepository.filter(type, category);
 
     return products;
   }

@@ -15,9 +15,10 @@ interface ICreateProductDTO {
 }
 
 interface IProductsRepository {
-  findByName(name: string): Promise<Product | undefined> | Product | undefined;
-  list(): Product[] | Promise<Product[]>;
-  create(product: ICreateProductDTO): void;
+  findByName(name: string): Promise<Product | undefined>;
+  list(): Promise<Product[]>;
+  filter(type?: string, category?: string): Promise<Product[]>;
+  create(product: ICreateProductDTO): Promise<void>;
 }
 
 export { ICreateProductDTO, IProductsRepository };

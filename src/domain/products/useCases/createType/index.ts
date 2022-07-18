@@ -2,10 +2,12 @@ import { TypesRepository } from "../../repositories/implementations/TypesReposit
 import { CreateTypeController } from "./createTypeController";
 import { CreateTypeUseCase } from "./createTypeUseCase";
 
-const typesRepository = TypesRepository.getInstance();
+export default (): CreateTypeController => {
+  const typesRepository = new TypesRepository();
 
-const createTypeUseCase = new CreateTypeUseCase(typesRepository);
+  const createTypeUseCase = new CreateTypeUseCase(typesRepository);
 
-const createTypeController = new CreateTypeController(createTypeUseCase);
+  const createTypeController = new CreateTypeController(createTypeUseCase);
 
-export { createTypeController };
+  return createTypeController;
+};

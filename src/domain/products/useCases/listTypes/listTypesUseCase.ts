@@ -4,8 +4,8 @@ import { ITypesRepository } from "../../repositories/interfaces/ITypesRepository
 class ListTypesUseCase {
   constructor(private typesRepository: ITypesRepository) {}
 
-  execute(): Type[] {
-    const types = this.typesRepository.list();
+  async execute(): Promise<Type[]> {
+    const types = await this.typesRepository.list();
 
     return types;
   }
