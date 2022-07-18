@@ -34,29 +34,29 @@ The order are registrations of some purchase.
 
 ## Routes
 - Create Type -> [POST] /types
--- name: string (required)
--- description: string (optional)
+&nbsp;- name: string (required)
+&nbsp;- description: string (optional)
 
 - List Types -> [GET] /types
 
 
 - Create Category -> [POST] /categories
--- name: string (required)
--- description: string (optional)
+&nbsp;- name: string (required)
+&nbsp;- description: string (optional)
 
 - List Categories -> [GET] /categories
 
 
 - Create Product -> [POST] /products
--- name: string (required)
--- description: string (required)
--- type_name: string (required)
--- category_name: string (required)
--- price: number (required)
--- discount: number (required)
--- onlyRentStock: number (required) 
--- onlySaleStock: number (required)
--- rentAndSaleStock: number (required)
+&nbsp;- name: string (required)
+&nbsp;- description: string (required)
+&nbsp;- type_name: string (required)
+&nbsp;- category_name: string (required)
+&nbsp;- price: number (required)
+&nbsp;- discount: number (required)
+&nbsp;- onlyRentStock: number (required) 
+&nbsp;- onlySaleStock: number (required)
+&nbsp;- rentAndSaleStock: number (required)
 
 - List Products -> [GET] /products
 
@@ -64,18 +64,18 @@ The order are registrations of some purchase.
 
 
 - Create Order -> [POST] /orders
--- rents: Array
-  -- productId: string (required)
-  -- customer: string (required)
-  -- days: number (required)
--- sales: Array
-  -- productId: string (required)
-  -- customer: string (required)
+&nbsp;- rents: Array
+&nbsp;&nbsp;- productId: string (required)
+&nbsp;&nbsp;- customer: string (required)
+&nbsp;&nbsp;- days: number (required)
+&nbsp;- sales: Array
+&nbsp;&nbsp;- productId: string (required)
+&nbsp;&nbsp;- customer: string (required)
 
 - List Orders -> [GET] /orders
 
 
 - Receive Product -> [POST] /orders/receive
--- rentId: string (required)
--- onlyRent: boolean (required)*
+&nbsp;- rentId: string (required)
+&nbsp;- onlyRent: boolean (required)*
 *It defines if the returned product will be placed to the general stock or only rent stock.
