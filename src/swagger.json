@@ -9,5 +9,40 @@
       "url": "https://github.com/gustavoalves-01",
       "email": "gustavo_s.alves@icloud.com"
     }
+  },
+  "paths": {
+    "/categories": {
+      "post": {
+        "tags": [
+          "categories"
+        ],
+        "summary": "Criar Categoria",
+        "description": "Cria uma nova categoria",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string",
+                    "required": false
+                  }
+                },
+                "example": {
+                  "name": "aventura",
+                  "description": "lorem ipsum dolor sit amet"
+                }
+
+              }
+            }
+          },
+          "description": "Cria uma nova categoria"
+        }
+      }
+    }
   }
 }

@@ -2,7 +2,7 @@ import { Order } from "../../entities/Order";
 
 interface IOrdersRepository {
   create(purchaseIds: string[]): Promise<void>;
-  list(): Order[];
+  list(): Promise<Order[]>;
 }
 
 export { IOrdersRepository };

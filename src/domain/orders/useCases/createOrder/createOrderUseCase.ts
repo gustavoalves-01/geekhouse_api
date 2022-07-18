@@ -1,5 +1,3 @@
-import { Rent } from "../../entities/Rent";
-import { Sale } from "../../entities/Sale";
 import { IOrdersRepository } from "../../repositories/interfaces/IOrdersRepository";
 import {
   IRentProductDTO,
@@ -25,6 +23,9 @@ class CreateOrderUseCase {
   async execute({ rents, sales }: IRequest): Promise<void> {
     const purchasesIds: string[] = [];
 
+    const rentsIds: { rentId: string; onlyRent: boolean }[] = [];
+    const salesIds: { saleId: string; onlySale: boolean }[] = [];
+
     if (rents) {
       await Promise.all(
         rents.map(async (rent) => {
@@ -32,8 +33,10 @@ class CreateOrderUseCase {
             customer: rent.customer,
             days: rent.days,
             productId: rent.productId,
+            onlyRent: rent.onlyRent,
           });
 
+          rentsIds.push({ rentId, onlyRent: rent.onlyRent });
           purchasesIds.push(rentId);
         })
       );
@@ -45,14 +48,30 @@ class CreateOrderUseCase {
           const saleId = await this.salesRepository.sellProduct({
             customer: sale.customer,
             productId: sale.productId,
+            onlySale: sale.onlySale,
           });
 
+          salesIds.push({ saleId, onlySale: sale.onlySale });
           purchasesIds.push(saleId);
         })
       );
     }
 
-    await this.ordersRepository.create(purchasesIds);
+    await this.ordersRepository.create(purchasesIds).catch(() => {
+      rentsIds.forEach((rent) => {
+        this.rentsRepository.cancelRent({
+          rentId: rent.rentId,
+          onlyRent: rent.onlyRent,
+        });
+      });
+
+      salesIds.forEach((sale) => {
+        this.salesRepository.cancelSale({
+          saleId: sale.saleId,
+          onlySale: sale.onlySale,
+        });
+      });
+    });
   }
 }
 

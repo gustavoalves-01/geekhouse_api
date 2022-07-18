@@ -3,11 +3,36 @@ import { PrismaClient } from "@prisma/client";
 import {
   IRentsRepository,
   IRentProductDTO,
+  IReceiveProductDTO,
 } from "../interfaces/IRentsRepository";
 
 const prisma = new PrismaClient();
 
 class RentsRepository implements IRentsRepository {
+  async cancelRent({ rentId, onlyRent }: IReceiveProductDTO): Promise<void> {
+    prisma.rents.delete({
+      where: { id: rentId },
+    });
+
+    const rentedProduct = await prisma.products.findFirst({
+      where: { rents: { some: { id: rentId } } },
+    });
+
+    if (rentedProduct) {
+      if (onlyRent) {
+        await prisma.products.update({
+          where: { id: rentedProduct.id },
+          data: { only_rent_stock: { increment: 1 } },
+        });
+      } else {
+        await prisma.products.update({
+          where: { id: rentedProduct.id },
+          data: { rent_and_sale_stock: { increment: 1 } },
+        });
+      }
+    }
+  }
+
   async rentProduct({
     productId,
     customer,
@@ -17,10 +42,23 @@ class RentsRepository implements IRentsRepository {
     const endDate = new Date();
     endDate.setDate(startDate.getDate() + days);
 
-    await prisma.products.update({
+    const product = await prisma.products.findFirstOrThrow({
       where: { id: productId },
-      data: { only_rent_stock: { decrement: 1 } },
     });
+
+    if (product.only_rent_stock > 0) {
+      await prisma.products.update({
+        where: { id: productId },
+        data: { only_rent_stock: { decrement: 1 } },
+      });
+    } else if (product.rent_and_sale_stock > 0) {
+      await prisma.products.update({
+        where: { id: productId },
+        data: { rent_and_sale_stock: { decrement: 1 } },
+      });
+    } else {
+      throw new Error("Product unavailable.");
+    }
 
     const rent = await prisma.rents.create({
       data: {
@@ -35,8 +73,19 @@ class RentsRepository implements IRentsRepository {
     return rent.id;
   }
 
-  async receiveProduct(rentId: string): Promise<void> {
-    prisma.rents.update({
+  async receiveProduct({
+    rentId,
+    onlyRent,
+  }: IReceiveProductDTO): Promise<void> {
+    const rent = await prisma.rents.findFirst({
+      where: { id: rentId },
+    });
+
+    if (rent?.status === "returned") {
+      throw new Error("Rent already received");
+    }
+
+    await prisma.rents.update({
       where: { id: rentId },
       data: { status: "returned" },
     });
@@ -46,10 +95,17 @@ class RentsRepository implements IRentsRepository {
     });
 
     if (rentedProduct) {
-      await prisma.products.update({
-        where: { id: rentedProduct.id },
-        data: { only_rent_stock: { increment: 1 } },
-      });
+      if (onlyRent) {
+        await prisma.products.update({
+          where: { id: rentedProduct.id },
+          data: { only_rent_stock: { increment: 1 } },
+        });
+      } else {
+        await prisma.products.update({
+          where: { id: rentedProduct.id },
+          data: { rent_and_sale_stock: { increment: 1 } },
+        });
+      }
     }
   }
 }

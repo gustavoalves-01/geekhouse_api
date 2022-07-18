@@ -17,6 +17,7 @@ class ProductsRepository implements IProductsRepository {
 
     if (productData) {
       const product: Product = {
+        id: productData.id,
         name: productData.name,
         description: productData.description,
         type: productData.type,
@@ -39,6 +40,7 @@ class ProductsRepository implements IProductsRepository {
 
     const products: Product[] = data.map((product) => {
       return {
+        id: product.id,
         name: product.name,
         description: product.description,
         type: product.type,
@@ -95,6 +97,7 @@ class ProductsRepository implements IProductsRepository {
 
       const products: Product[] = data.map((product) => {
         return {
+          id: product.id,
           name: product.name,
           description: product.description,
           type: product.type,
